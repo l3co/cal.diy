@@ -19,6 +19,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { FieldError } from "react-hook-form";
 import type { IUseBookingErrors, IUseBookingLoadingStates } from "../../hooks/useBookings";
+import { BusinessHoursWarning } from "../BusinessHoursWarning";
 import { BookingFields } from "./BookingFields";
 import { FormSkeleton } from "./Skeleton";
 
@@ -64,7 +65,10 @@ export const BookEventForm = ({
   eventQuery: {
     isError: boolean;
     isPending: boolean;
-    data?: Pick<BookerEvent, "price" | "currency" | "metadata" | "bookingFields" | "locations"> | null;
+    data?: Pick<
+      BookerEvent,
+      "price" | "currency" | "metadata" | "bookingFields" | "locations" | "length" | "schedule"
+    > | null;
   };
 }) => {
   const eventType = eventQuery.data;
@@ -173,6 +177,13 @@ export const BookEventForm = ({
             />
           </div>
         ) : null}
+
+        <BusinessHoursWarning
+          time={timeslot}
+          timeZone={eventType.schedule?.timeZone}
+          durationInMinutes={eventType.length}
+          className="my-2"
+        />
 
         {!isPlatform && (
           <div className="my-3 w-full text-xs text-subtle">

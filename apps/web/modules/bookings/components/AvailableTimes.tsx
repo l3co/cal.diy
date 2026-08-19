@@ -20,6 +20,7 @@ import { AnimatePresence, m } from "framer-motion";
 import { useMemo } from "react";
 import type { Slot } from "~/schedules/lib/types";
 import type { IUseBookingLoadingStates } from "../hooks/useBookings";
+import { BusinessHoursWarning } from "./BusinessHoursWarning";
 import { OutOfOfficeInSlots } from "./OutOfOfficeInSlots";
 import { SeatsAvailabilityText } from "./SeatsAvailabilityText";
 
@@ -59,7 +60,10 @@ type SlotItemProps = {
   onTentativeTimeSelect?: TOnTentativeTimeSelect;
   showAvailableSeatsCount?: boolean | null;
   event: {
-    data?: Pick<BookerEvent, "length" | "bookingFields" | "price" | "currency" | "metadata"> | null;
+    data?: Pick<
+      BookerEvent,
+      "length" | "bookingFields" | "price" | "currency" | "metadata" | "schedule"
+    > | null;
   };
   customClassNames?: string;
   confirmStepClassNames?: {
@@ -263,6 +267,10 @@ export const AvailableTimes = ({
 }: AvailableTimesProps) => {
   const { t } = useLocale();
 
+  const selectedTimeslot = useBookerStoreContext((state) => state.selectedTimeslot);
+  // Only render the warning in the day column the selected slot actually belongs to.
+  const selectedSlotIsInThisList = slots.some((slot) => slot.time === selectedTimeslot);
+
   const oooAllDay = slots.every((slot) => slot.away);
   if (oooAllDay) {
     return <OOOSlot {...slots[0]} />;
@@ -275,6 +283,14 @@ export const AvailableTimes = ({
   return (
     <div className={classNames("text-default flex flex-col", className)}>
       <div className="h-full pb-4">
+        {selectedSlotIsInThisList && (
+          <BusinessHoursWarning
+            time={selectedTimeslot}
+            timeZone={props.event?.data?.schedule?.timeZone}
+            durationInMinutes={props.event?.data?.length}
+            className="mb-2"
+          />
+        )}
         {!slots.length && (
           <div
             data-testId="no-slots-available"
