@@ -1,5 +1,8 @@
+import { useCopy } from "@calcom/lib/hooks/useCopy";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Badge } from "@calcom/ui/components/badge";
+import { Button } from "@calcom/ui/components/button";
+import { showToast } from "@calcom/ui/components/toast";
 import { CheckIcon } from "@coss/ui/icons";
 
 export interface DecoyBookingSuccessCardProps {
@@ -28,6 +31,31 @@ export function DecoyBookingSuccessCard({
   location,
 }: DecoyBookingSuccessCardProps) {
   const { t } = useLocale();
+  const { copyToClipboard, isCopied } = useCopy();
+
+  const handleCopySummary = () => {
+    const lines = [`${t("what")}: ${title}`];
+
+    if (formattedDate) {
+      let when = formattedDate;
+      if (formattedTime) {
+        when += `, ${formattedTime}${endTime ? ` - ${endTime}` : ""}`;
+        if (formattedTimeZone) {
+          when += ` (${formattedTimeZone})`;
+        }
+      }
+      lines.push(`${t("when")}: ${when}`);
+    }
+
+    if (location) {
+      lines.push(`${t("where")}: ${location}`);
+    }
+
+    copyToClipboard(lines.join("\n"), {
+      onSuccess: () => showToast(t("summary_copied"), "success"),
+      onFailure: () => showToast(t("something_went_wrong"), "error"),
+    });
+  };
 
   return (
     <div className="h-screen">
@@ -102,6 +130,15 @@ export function DecoyBookingSuccessCard({
                         <div className="col-span-2 mt-3">{t("web_conferencing_details_to_follow")}</div>
                       </>
                     )}
+                  </div>
+
+                  <div className="mt-8 flex justify-center">
+                    <Button
+                      color="secondary"
+                      StartIcon={isCopied ? "clipboard-check" : "clipboard"}
+                      onClick={handleCopySummary}>
+                      {t("copy_summary")}
+                    </Button>
                   </div>
                 </div>
               </div>

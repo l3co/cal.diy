@@ -897,6 +897,8 @@
   "pending": "Pending",
   "open_options": "Open options",
   "copy_link": "Copy link to event",
+  "copy_summary": "Copy summary",
+  "summary_copied": "Summary copied!",
   "share": "Share",
   "share_event": "Would you mind booking my cal or send me your link?",
   "copy_link_team": "Copy link to team",
