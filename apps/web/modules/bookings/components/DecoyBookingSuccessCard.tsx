@@ -1,6 +1,11 @@
+import { useCopy } from "@calcom/lib/hooks/useCopy";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Badge } from "@calcom/ui/components/badge";
+import { Button } from "@calcom/ui/components/button";
+import { showToast } from "@calcom/ui/components/toast";
 import { CheckIcon } from "@coss/ui/icons";
+
+import { buildBookingSummary } from "../lib/buildBookingSummary";
 
 export interface DecoyBookingSuccessCardProps {
   title: string;
@@ -28,6 +33,19 @@ export function DecoyBookingSuccessCard({
   location,
 }: DecoyBookingSuccessCardProps) {
   const { t } = useLocale();
+  const { copyToClipboard, isCopied } = useCopy();
+
+  const handleCopySummary = () => {
+    const summary = buildBookingSummary(
+      { title, formattedDate, formattedTime, endTime, formattedTimeZone, location },
+      { what: t("what"), when: t("when"), where: t("where") }
+    );
+
+    copyToClipboard(summary, {
+      onSuccess: () => showToast(t("summary_copied"), "success"),
+      onFailure: () => showToast(t("something_went_wrong"), "error"),
+    });
+  };
 
   return (
     <div className="h-screen">
@@ -103,6 +121,18 @@ export function DecoyBookingSuccessCard({
                       </>
                     )}
                   </div>
+
+                  <div className="mt-8 flex justify-center">
+                    <Button
+                      color="secondary"
+                      StartIcon={isCopied ? "clipboard-check" : "clipboard"}
+                      onClick={handleCopySummary}>
+                      {t("copy_summary")}
+                    </Button>
+                  </div>
+                  <span className="sr-only" role="status" aria-live="polite">
+                    {isCopied ? t("summary_copied") : ""}
+                  </span>
                 </div>
               </div>
             </div>
