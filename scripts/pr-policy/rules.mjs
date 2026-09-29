@@ -152,3 +152,15 @@ export function checkSingleContext(paths, config) {
   const detail = [...byArea].map(([area, files]) => `${area} (ex.: ${files[0]})`).join("; ");
   return [`O PR mistura ${byArea.size} áreas: ${detail}. Separe em PRs distintos.`];
 }
+
+// Resolves each rule result into a status. With the override label, violations of bypassable
+// rules become "overridden" (reported, not blocking); description/evidence is never bypassable.
+export function resolveStatuses(results, labels, { label, bypassableRules }) {
+  const overridden = labels.includes(label);
+  return results.map((result) => {
+    if (result.violations === null) return { ...result, status: "skipped" };
+    if (result.violations.length === 0) return { ...result, status: "passed" };
+    if (overridden && bypassableRules.includes(result.id)) return { ...result, status: "overridden" };
+    return { ...result, status: "failed" };
+  });
+}

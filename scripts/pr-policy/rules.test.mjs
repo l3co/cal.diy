@@ -9,6 +9,7 @@ import {
   classifyArea,
   globToRegExp,
   parseSections,
+  resolveStatuses,
 } from "./rules.mjs";
 
 const commit = (subject, overrides = {}) => ({ sha: "abcdef1234567", subject, parents: 1, files: [], ...overrides });
@@ -145,5 +146,26 @@ describe("classifyArea / checkSingleContext", () => {
   it("fails a login fix that touches checkout code", () => {
     const paths = ["packages/features/auth/lib/login.ts", "packages/app-store/stripepayment/lib/checkout.ts"];
     expect(checkSingleContext(paths, config.context)).toHaveLength(1);
+  });
+});
+
+describe("resolveStatuses", () => {
+  const results = [
+    { id: "description", violations: ["sem evidência"] },
+    { id: "commits", violations: ["sem scope"] },
+    { id: "granularity", violations: [] },
+    { id: "context", violations: null },
+  ];
+
+  it("fails every violated rule without the override label", () => {
+    const statuses = resolveStatuses(results, [], config.override).map((result) => result.status);
+    expect(statuses).toEqual(["failed", "failed", "passed", "skipped"]);
+  });
+
+  it("downgrades only bypassable rules with the override label", () => {
+    const statuses = resolveStatuses(results, ["bug", config.override.label], config.override).map(
+      (result) => result.status
+    );
+    expect(statuses).toEqual(["failed", "overridden", "passed", "skipped"]);
   });
 });

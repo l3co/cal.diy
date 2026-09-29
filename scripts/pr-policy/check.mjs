@@ -3,10 +3,10 @@
 //
 // Usage:
 //   node scripts/pr-policy/check.mjs --base origin/main [--head HEAD]
-//     [--title "fix(auth): ..."] [--body-file pr-body.md] [--report report.md]
+//     [--title "fix(auth): ..."] [--body-file pr-body.md] [--report report.md] [--labels a,b]
 //
 // Without --body-file the description rules are skipped (useful before the PR body exists).
-// Exits with 1 when any rule is violated.
+// Exits with 1 when any rule is violated, unless the violation is bypassed by the override label.
 import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { parseArgs } from "node:util";
@@ -16,6 +16,7 @@ import {
   checkGranularity,
   checkSingleContext,
   checkSingleScope,
+  resolveStatuses,
 } from "./rules.mjs";
 
 const git = (...args) => execFileSync("git", args, { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 }).trim();
@@ -48,23 +49,36 @@ function readCommits(base, head) {
 
 function evaluate({ commits, paths, title, body, config }) {
   return [
-    { rule: "O que foi feito + evidências", violations: body === undefined ? null : checkDescription(body, config.description) },
-    { rule: "Padrão de commits", violations: checkCommitMessages(commits, title, config.commits) },
-    { rule: "Commits granulares", violations: checkGranularity(commits, config.granularity) },
     {
+      id: "description",
+      rule: "O que foi feito + evidências",
+      violations: body === undefined ? null : checkDescription(body, config.description),
+    },
+    { id: "commits", rule: "Padrão de commits", violations: checkCommitMessages(commits, title, config.commits) },
+    { id: "granularity", rule: "Commits granulares", violations: checkGranularity(commits, config.granularity) },
+    {
+      id: "context",
       rule: "Contexto único",
       violations: [...checkSingleScope(commits, title), ...checkSingleContext(paths, config.context)],
     },
   ];
 }
 
-function renderReport(results) {
+const LABEL = {
+  passed: (rule) => `- ✅ **${rule}**`,
+  failed: (rule) => `- ❌ **${rule}**`,
+  overridden: (rule, label) => `- ⚠️ **${rule}** — liberado pela label \`${label}\``,
+  skipped: (rule) => `- ⏭️ **${rule}** — não verificado (sem descrição)`,
+};
+
+function renderReport(results, overrideLabel) {
   const lines = ["## PR policy", ""];
-  for (const { rule, violations } of results) {
-    if (violations === null) lines.push(`- ⏭️ **${rule}** — não verificado (sem descrição)`);
-    else if (violations.length === 0) lines.push(`- ✅ **${rule}**`);
-    else lines.push(`- ❌ **${rule}**`, ...violations.map((violation) => `  - ${violation}`));
+  for (const { rule, violations, status } of results) {
+    lines.push(LABEL[status](rule, overrideLabel));
+    if (status === "failed" || status === "overridden") lines.push(...violations.map((violation) => `  - ${violation}`));
   }
+  if (results.some(({ status }) => status === "overridden"))
+    lines.push("", "Override ativo: a justificativa deve estar em `## Impacto / Impact`.");
   lines.push("", "Regras completas em `docs/pr-policy.md`.");
   return lines.join("\n");
 }
@@ -78,19 +92,21 @@ function main() {
       "body-file": { type: "string" },
       report: { type: "string" },
       config: { type: "string", default: ".github/pr-policy.json" },
+      labels: { type: "string", default: "" },
     },
   });
   const config = JSON.parse(readFileSync(values.config, "utf8"));
   const commits = readCommits(values.base, values.head);
   const paths = git("diff", "--name-only", "--no-renames", `${values.base}...${values.head}`).split("\n").filter(Boolean);
   const body = values["body-file"] ? readFileSync(values["body-file"], "utf8") : undefined;
+  const labels = values.labels.split(",").map((label) => label.trim());
 
-  const results = evaluate({ commits, paths, title: values.title, body, config });
-  const report = renderReport(results);
+  const results = resolveStatuses(evaluate({ commits, paths, title: values.title, body, config }), labels, config.override);
+  const report = renderReport(results, config.override.label);
   if (values.report) writeFileSync(values.report, `${report}\n`);
   console.log(report);
 
-  const failed = results.some(({ violations }) => violations?.length);
+  const failed = results.some(({ status }) => status === "failed");
   process.exit(failed ? 1 : 0);
 }
 

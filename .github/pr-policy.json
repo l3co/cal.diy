@@ -88,5 +88,13 @@
         "jwt"
       ]
     }
+  },
+  "override": {
+    "label": "policy-override",
+    "bypassableRules": [
+      "commits",
+      "granularity",
+      "context"
+    ]
   }
 }
