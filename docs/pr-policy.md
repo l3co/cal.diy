@@ -11,19 +11,19 @@ Limites, seções obrigatórias e áreas ficam em `.github/pr-policy.json` — a
 
 ### 1. O PR deve informar o que foi feito
 
-A descrição deve conter as seções abaixo (títulos `##` exatamente com estes nomes), cada uma com conteúdo real — comentários `<!-- -->` e placeholders não contam:
+A descrição deve conter as seções abaixo (títulos `##` com o nome em português, em inglês ou ambos, como no template), cada uma com conteúdo real — comentários `<!-- -->` e placeholders não contam:
 
 | Seção | Conteúdo esperado |
 | --- | --- |
-| `## O que foi feito` | O que mudou, de forma objetiva. |
-| `## Por quê` | Motivo da mudança (bug, feature, débito técnico...). |
-| `## Evidências` | Resultado da execução (ver regra 2). |
-| `## Como testar` | Passos reproduzíveis para o revisor. |
-| `## Impacto` | Áreas afetadas, riscos, efeitos colaterais. |
+| `## O que foi feito / What was done` | O que mudou, de forma objetiva. |
+| `## Por quê / Why` | Motivo da mudança (bug, feature, débito técnico...). |
+| `## Evidências / Evidence` | Resultado da execução (ver regra 2). |
+| `## Como testar / How to test` | Passos reproduzíveis para o revisor. |
+| `## Impacto / Impact` | Áreas afetadas, riscos, efeitos colaterais. |
 
 ### 2. Deve constar a evidência da implementação
 
-A seção `## Evidências` precisa trazer pelo menos um bloco de saída de comando (bloco de código) ou uma imagem. A skill `pr-evidence` gera essa seção automaticamente com:
+A seção `## Evidências / Evidence` precisa trazer pelo menos um bloco de saída de comando (bloco de código) ou uma imagem. A skill `pr-evidence` gera essa seção automaticamente com:
 
 - **Lint** (Biome) dos arquivos alterados;
 - **Type-check** dos workspaces afetados;

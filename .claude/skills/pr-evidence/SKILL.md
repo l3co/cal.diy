@@ -14,7 +14,7 @@ This skill is scoped exclusively to the **cal.diy** repository. Do not reuse it 
 
 ## Output
 
-`.evidence/<branch-slug>/evidence.md` (git-ignored) — the full body of the `## Evidências` section, which `pr-generator` pastes into the PR. The policy check requires this section to contain at least one code block or image.
+`.evidence/<branch-slug>/evidence.md` (git-ignored) — the full body of the `## Evidências / Evidence` section, which `pr-generator` pastes into the PR. The policy check requires this section to contain at least one code block or image.
 
 ## Workflow
 

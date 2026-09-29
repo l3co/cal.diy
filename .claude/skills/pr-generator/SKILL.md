@@ -23,13 +23,13 @@ Every PR must pass the PR approval policy in `docs/pr-policy.md`, enforced in CI
 
 ## Required PR structure
 
-The body follows `.github/PULL_REQUEST_TEMPLATE.md`. These sections, in this order, all filled in:
+The body follows `.github/PULL_REQUEST_TEMPLATE.md`. These bilingual headings (keep them exactly as in the template), in this order, all filled in. Write the content in the language the user is using, or in English when the PR targets an English-speaking audience:
 
-1. **`## O que foi feito`** — Clear and objective explanation of what the PR changes. State exactly what was added, fixed, or removed; include `Fixes #XXXX` when there is an issue.
-2. **`## Por quê`** — The motivation (bug fix, feature request, tech debt, incident follow-up...). Explain the "why", not just the "what".
-3. **`## Evidências`** — The content produced by the `pr-evidence` skill (`.evidence/<branch-slug>/evidence.md`), unedited.
-4. **`## Como testar`** — Concrete, reproducible steps a reviewer can follow (copy-pasteable commands, pages/flows, edge cases).
-5. **`## Impacto`** — Affected areas, risks, side effects, and what to watch after merge.
+1. **`## O que foi feito / What was done`** — Clear and objective explanation of what the PR changes. State exactly what was added, fixed, or removed; include `Fixes #XXXX` when there is an issue.
+2. **`## Por quê / Why`** — The motivation (bug fix, feature request, tech debt, incident follow-up...). Explain the "why", not just the "what".
+3. **`## Evidências / Evidence`** — The content produced by the `pr-evidence` skill (`.evidence/<branch-slug>/evidence.md`), unedited.
+4. **`## Como testar / How to test`** — Concrete, reproducible steps a reviewer can follow (copy-pasteable commands, pages/flows, edge cases).
+5. **`## Impacto / Impact`** — Affected areas, risks, side effects, and what to watch after merge.
 
 Keep the `## Checklist` from the template and tick only what is true.
 

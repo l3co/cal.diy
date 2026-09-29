@@ -28,7 +28,7 @@ Skills abaixo são específicas do cal.diy (vivem em `.claude/skills/`, versiona
 
 Todo PR segue `docs/pr-policy.md`, verificado localmente por `node scripts/pr-policy/check.mjs` e no CI pelo check `PR policy` (limites em `.github/pr-policy.json`):
 
-- Descrição com `## O que foi feito`, `## Por quê`, `## Evidências`, `## Como testar` e `## Impacto`.
+- Descrição com as seções bilíngues do template (`O que foi feito / What was done`, `Por quê / Why`, `Evidências / Evidence`, `Como testar / How to test`, `Impacto / Impact`); vale título em PT, EN ou ambos.
 - Evidência real da execução (saída de lint/type-check/testes; screenshots/GIF para UI, publicados na branch órfã `evidence`).
 - Commits granulares: no máximo 8 arquivos / 300 linhas por commit.
 - Commits e título no padrão `<type>(<scope>): <assunto>`, scope obrigatório e igual em todo o PR.
