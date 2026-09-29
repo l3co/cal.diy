@@ -21,4 +21,15 @@ Skills abaixo são específicas do cal.diy (vivem em `.claude/skills/`, versiona
 1. **research** (`.claude/skills/research/SKILL.md`) — acionada ao propor uma nova funcionalidade. Age como analista de negócio: explora o código existente e entrevista o usuário (objetivo, escopo, cenários de falha/edge cases, critérios de aceite). Ao final, aciona automaticamente a skill `plan`.
 2. **plan** (`.claude/skills/plan/SKILL.md`) — recebe o material do `research` e produz um plano de implementação em Markdown, dividido em partes, salvo em `docs/plans/<feature>/plan.md`. Pede aprovação do usuário antes de acionar automaticamente a skill `implement`.
 3. **implement** (`.claude/skills/implement/SKILL.md`) — executa o plano aprovado parte por parte, seguindo o stack e as convenções do cal.diy (TypeScript/Next.js/tRPC/Prisma, métodos curtos e coesos, SOLID, funções puras em áreas de JS leve). Roda lint/type-check/testes a cada parte e, ao final, aciona automaticamente a skill `pr-generator`.
-4. **pr-generator** (`.claude/skills/pr-generator/SKILL.md`) — usada ao abrir Pull Requests deste repositório no GitHub. Garante que a descrição do PR sempre traga: descrição clara, motivo da mudança, exemplos de como testar e impactos da mudança.
+4. **pr-generator** (`.claude/skills/pr-generator/SKILL.md`) — usada ao abrir Pull Requests deste repositório no GitHub. Valida a política de aprovação de PR, aciona `pr-evidence` e monta a descrição com: o que foi feito, por quê, evidências, como testar e impacto.
+5. **pr-evidence** (`.claude/skills/pr-evidence/SKILL.md`) — executa e coleta as evidências da implementação (lint, type-check, testes e screenshots/GIF quando há UI) para a seção `## Evidências` do PR.
+
+# Política de aprovação de PR
+
+Todo PR segue `docs/pr-policy.md`, verificado localmente por `node scripts/pr-policy/check.mjs` e no CI pelo check `PR policy` (limites em `.github/pr-policy.json`):
+
+- Descrição com `## O que foi feito`, `## Por quê`, `## Evidências`, `## Como testar` e `## Impacto`.
+- Evidência real da execução (saída de lint/type-check/testes; screenshots/GIF para UI, publicados na branch órfã `evidence`).
+- Commits granulares: no máximo 8 arquivos / 300 linhas por commit.
+- Commits e título no padrão `<type>(<scope>): <assunto>`, scope obrigatório e igual em todo o PR.
+- Um único contexto de negócio por PR (ex.: correção de login não inclui arquivos de checkout).

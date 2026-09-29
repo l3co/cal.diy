@@ -38,7 +38,8 @@ This is a Turborepo/Yarn monorepo (`apps/*`, `packages/*`) built on TypeScript, 
    - Write the code following the style rules above.
    - Run `yarn lint`, `yarn type-check`, and relevant `yarn test` for the touched packages; fix failures before moving on.
    - Mark the part as done in `plan.md` (e.g. append `✅ Done` to the part's heading) so the plan doubles as a progress tracker.
-   - Commit the part's changes with a concise, conventional commit message (following this repo's commit style — see recent `git log`).
+   - Commit the part's changes following the PR approval policy (`docs/pr-policy.md`): `<type>(<scope>): <subject>` with the **same scope for every commit of the feature**, and at most 8 files / 300 changed lines per commit — split a part into several commits (e.g. schema → logic → UI → tests) when it is bigger than that.
+   - Before moving on, run `node scripts/pr-policy/check.mjs --base origin/main` and fix commit-format, granularity or mixed-context violations while they are still cheap to fix.
 3. If a part turns out ambiguous or contradicts what was approved in the plan, stop and ask the user rather than guessing — do not silently deviate from the approved plan.
 4. Once all parts are implemented and verified, give the user a short summary of what was built and confirm anything worth flagging (deviations, follow-ups, known limitations).
 5. Invoke the `Skill` tool with `skill: "pr-generator"` to open the PR for the completed feature, passing a short description of the implemented feature as `args`.

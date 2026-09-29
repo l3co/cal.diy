@@ -57,4 +57,5 @@ Only split into multiple files (`part-1-<name>.md`, `part-2-<name>.md`, ...) ins
 - Plans are Markdown only — pseudocode is fine, real code is not.
 - Never skip the approval step before triggering `implement`.
 - Never invent requirements not present in the research brief; if something is missing, ask the user rather than assuming.
+- Keep each plan within a single business context (one PR scope, one area in `.github/pr-policy.json`) — the PR approval policy (`docs/pr-policy.md`) rejects PRs that mix contexts. If the feature spans unrelated areas, split it into separate plans/PRs and tell the user.
 - Respect this project's existing conventions and prior decisions (e.g. timezone/business-hours rules documented in the root `CLAUDE.md`) when shaping the technical approach.
