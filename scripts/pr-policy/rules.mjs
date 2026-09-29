@@ -7,8 +7,10 @@ const HEADING = /^##\s+(.+?)\s*$/;
 export function parseSections(body) {
   const sections = new Map();
   let current = null;
+  let inFence = false;
   for (const line of (body ?? "").replace(COMMENT, "").split(/\r?\n/)) {
-    const heading = line.match(HEADING);
+    if (/^\s*(```|~~~)/.test(line)) inFence = !inFence;
+    const heading = !inFence && line.match(HEADING);
     if (heading) {
       current = heading[1];
       sections.set(current, []);

@@ -35,6 +35,12 @@ describe("parseSections", () => {
     expect(sections.get("A")).toBe("");
     expect(sections.get("B")).toBe("text");
   });
+
+  it("does not treat headings inside code blocks as sections", () => {
+    const sections = parseSections("## A\n```\n## not a section\n```\n");
+    expect([...sections.keys()]).toEqual(["A"]);
+    expect(sections.get("A")).toContain("## not a section");
+  });
 });
 
 describe("checkDescription", () => {
