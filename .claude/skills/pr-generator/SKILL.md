@@ -43,7 +43,7 @@ Keep the `## Checklist` from the template and tick only what is true.
    node scripts/pr-policy/check.mjs --base origin/main --title "<draft title>"
    ```
 
-   If commit format, granularity or single-context rules fail, stop and explain the violations to the user. Mixed contexts must be split into separate branches/PRs; oversized or badly named commits must be split/reworded. Both need history rewriting (e.g. `git reset --soft` + recommit), which you only do with the user's explicit approval, and only on branches that are not shared yet.
+   If commit format, granularity or single-context rules fail, stop and explain the violations to the user. Never apply the `policy-override` label yourself — it is a maintainer's decision; if the user believes an exception is justified, tell them to ask a maintainer and record the justification under `## Impacto / Impact`. Mixed contexts must be split into separate branches/PRs; oversized or badly named commits must be split/reworded. Both need history rewriting (e.g. `git reset --soft` + recommit), which you only do with the user's explicit approval, and only on branches that are not shared yet.
 4. Invoke the `Skill` tool with `skill: "pr-evidence"` to generate `.evidence/<branch-slug>/evidence.md`. Do not continue if evidence steps fail.
 5. Draft the title — `<type>(<scope>): <subject>` using the same scope as the commits, imperative mood, at most 72 characters — and the body with the five required sections, written to `.evidence/<branch-slug>/pr-body.md`.
 6. Validate the full draft:

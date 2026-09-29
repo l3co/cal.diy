@@ -57,4 +57,9 @@ Exemplo: um PR `fix(auth): ...` que também altera `packages/app-store/stripepay
 
 ## Exceções
 
-Não há override automático. Se um PR realmente precisa quebrar uma regra (ex.: migração em massa gerada por codemod), explique na seção `## Impacto` e peça a um mantenedor para aprovar manualmente; ajustes recorrentes devem virar mudança em `.github/pr-policy.json`.
+Quando um PR realmente precisa quebrar uma regra (ex.: migração em massa gerada por codemod, rename que atravessa várias áreas), um mantenedor aplica a label **`policy-override`**:
+
+- As regras **3 (commits granulares)**, **4 (padrão de commits)** e **5 (contexto único)** continuam sendo reportadas no comentário do check, marcadas com ⚠️, mas deixam de reprovar o PR.
+- As regras **1 e 2 (descrição e evidência) nunca são liberadas** — a justificativa do override deve estar em `## Impacto / Impact`.
+- Só quem tem permissão de *triage* ou *write* no repositório consegue aplicar labels, então o override fica restrito aos mantenedores. Adicionar ou remover a label reexecuta o check.
+- A label e as regras liberáveis ficam em `override` no `.github/pr-policy.json`. Overrides recorrentes indicam que a configuração (limites, áreas, aliases) deve mudar.

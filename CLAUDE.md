@@ -33,3 +33,4 @@ Todo PR segue `docs/pr-policy.md`, verificado localmente por `node scripts/pr-po
 - Commits granulares: no máximo 8 arquivos / 300 linhas por commit.
 - Commits e título no padrão `<type>(<scope>): <assunto>`, scope obrigatório e igual em todo o PR.
 - Um único contexto de negócio por PR (ex.: correção de login não inclui arquivos de checkout).
+- Exceções: a label `policy-override` (aplicada por mantenedor) libera commits/granularidade/contexto, nunca descrição e evidência.

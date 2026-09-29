@@ -10,6 +10,8 @@ on:
       - edited
       - synchronize
       - ready_for_review
+      - labeled
+      - unlabeled
 
 permissions:
   contents: read
@@ -43,12 +45,14 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_BODY: ${{ github.event.pull_request.body }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
         run: |
           printf '%s' "$PR_BODY" > "$RUNNER_TEMP/pr-body.md"
           node scripts/pr-policy/check.mjs \
             --base "$BASE_SHA" \
             --head pr/head \
             --title "$PR_TITLE" \
+            --labels "$PR_LABELS" \
             --body-file "$RUNNER_TEMP/pr-body.md" \
             --report "$RUNNER_TEMP/pr-policy-report.md"
 
