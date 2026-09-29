@@ -1,13 +1,13 @@
 {
   "description": {
     "requiredSections": [
-      "O que foi feito",
-      "Por quê",
-      "Evidências",
-      "Como testar",
-      "Impacto"
+      "O que foi feito / What was done",
+      "Por quê / Why",
+      "Evidências / Evidence",
+      "Como testar / How to test",
+      "Impacto / Impact"
     ],
-    "evidenceSection": "Evidências"
+    "evidenceSection": "Evidências / Evidence"
   },
   "commits": {
     "types": [

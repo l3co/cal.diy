@@ -50,8 +50,20 @@ describe("checkDescription", () => {
 
   it("reports missing and empty sections", () => {
     const violations = checkDescription("## O que foi feito\n<!-- todo -->", config.description);
-    expect(violations).toContain('A seção "## O que foi feito" está vazia.');
-    expect(violations).toContain('Descrição sem a seção obrigatória "## Impacto".');
+    expect(violations).toContain('A seção "## O que foi feito / What was done" está vazia.');
+    expect(violations).toContain('Descrição sem a seção obrigatória "## Impacto / Impact".');
+  });
+
+  it("accepts English-only and bilingual headings", () => {
+    const english = validBody
+      .replace("## O que foi feito", "## What was done")
+      .replace("## Por quê", "## Why")
+      .replace("## Evidências", "## Evidence")
+      .replace("## Como testar", "## How to test")
+      .replace("## Impacto", "## Impact");
+    expect(checkDescription(english, config.description)).toEqual([]);
+    const bilingual = validBody.replace("## Evidências", "## Evidências / Evidence");
+    expect(checkDescription(bilingual, config.description)).toEqual([]);
   });
 
   it("requires a code block or image as evidence", () => {

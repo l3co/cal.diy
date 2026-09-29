@@ -27,14 +27,25 @@ function hasEvidence(content) {
   return hasCodeBlock || hasImage;
 }
 
+// A required section like "O que foi feito / What was done" is satisfied by a heading with
+// either name, or both — so the template can be bilingual and contributors can use one language.
+const sectionNames = (title) => title.split("/").map((name) => name.trim().toLowerCase());
+
+function findSection(sections, required) {
+  const names = sectionNames(required);
+  const heading = [...sections.keys()].find((title) => sectionNames(title).some((name) => names.includes(name)));
+  return heading === undefined ? undefined : sections.get(heading);
+}
+
 export function checkDescription(body, { requiredSections, evidenceSection }) {
   const sections = parseSections(body);
   const violations = [];
   for (const name of requiredSections) {
-    if (!sections.has(name)) violations.push(`Descrição sem a seção obrigatória "## ${name}".`);
-    else if (!sections.get(name)) violations.push(`A seção "## ${name}" está vazia.`);
+    const content = findSection(sections, name);
+    if (content === undefined) violations.push(`Descrição sem a seção obrigatória "## ${name}".`);
+    else if (!content) violations.push(`A seção "## ${name}" está vazia.`);
   }
-  const evidence = sections.get(evidenceSection);
+  const evidence = findSection(sections, evidenceSection);
   if (evidence && !hasEvidence(evidence)) {
     violations.push(
       `A seção "## ${evidenceSection}" precisa de saída de comando (bloco de código) ou imagem — rode a skill pr-evidence.`
