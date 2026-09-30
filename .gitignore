@@ -117,3 +117,6 @@ agents/devin-knowledge.json
 
 # pagefind
 _pagefind/
+
+# PR evidence generated locally by scripts/pr-policy (published to the evidence branch)
+.evidence/

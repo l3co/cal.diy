@@ -1,0 +1,100 @@
+{
+  "description": {
+    "requiredSections": [
+      "O que foi feito / What was done",
+      "Por quê / Why",
+      "Evidências / Evidence",
+      "Como testar / How to test",
+      "Impacto / Impact"
+    ],
+    "evidenceSection": "Evidências / Evidence"
+  },
+  "commits": {
+    "types": [
+      "feat",
+      "fix",
+      "refactor",
+      "perf",
+      "test",
+      "docs",
+      "chore",
+      "ci",
+      "build",
+      "style",
+      "revert"
+    ],
+    "requireScope": true,
+    "maxSubjectLength": 72
+  },
+  "granularity": {
+    "maxFilesPerCommit": 8,
+    "maxLinesPerCommit": 300,
+    "ignore": [
+      "yarn.lock",
+      "**/*.generated.*",
+      "**/__snapshots__/**",
+      "**/*.snap",
+      "packages/prisma/migrations/**/migration.sql",
+      "apps/web/public/static/locales/**"
+    ]
+  },
+  "context": {
+    "areas": [
+      {
+        "pattern": "^(\\.claude/|\\.github/|docs/pr-policy|scripts/pr-policy/|CLAUDE\\.md$)",
+        "area": "harness"
+      },
+      {
+        "pattern": "^packages/features/([^/]+)/",
+        "area": "$1"
+      },
+      {
+        "pattern": "^packages/app-store/([^/]+)/",
+        "area": "$1"
+      },
+      {
+        "pattern": "^apps/web/modules/([^/]+)/",
+        "area": "$1"
+      },
+      {
+        "pattern": "^apps/web/app/\\([^)]+\\)/([^/]+)/",
+        "area": "$1"
+      },
+      {
+        "pattern": "^packages/trpc/server/routers/viewer/([^/]+)/",
+        "area": "$1"
+      },
+      {
+        "pattern": "^apps/api/v2/src/modules/([^/]+)/",
+        "area": "$1"
+      },
+      {
+        "pattern": "^packages/emails/",
+        "area": "emails"
+      },
+      {
+        "pattern": "^packages/embeds/",
+        "area": "embed"
+      }
+    ],
+    "aliases": {
+      "payment": [
+        "stripe",
+        "stripepayment",
+        "paypal"
+      ],
+      "auth": [
+        "oauth",
+        "jwt"
+      ]
+    }
+  },
+  "override": {
+    "label": "policy-override",
+    "bypassableRules": [
+      "commits",
+      "granularity",
+      "context"
+    ]
+  }
+}

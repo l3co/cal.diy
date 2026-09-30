@@ -1,46 +1,50 @@
-## What does this PR do?
+<!--
+PT: Este PR é validado pelo check "PR policy" (docs/pr-policy.md):
+- título e commits no formato <type>(<scope>): <assunto>, todos com o MESMO scope;
+- no máximo 8 arquivos / 300 linhas por commit;
+- um único contexto de negócio por PR;
+- todas as seções abaixo preenchidas (comentários não contam). Pode escrever em português ou inglês.
+Exceções: um mantenedor pode aplicar a label "policy-override"; justifique em "Impacto / Impact".
 
-<!-- Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
+EN: This PR is validated by the "PR policy" check (docs/pr-policy.md):
+- title and commits as <type>(<scope>): <subject>, all with the SAME scope;
+- at most 8 files / 300 lines per commit;
+- a single business context per PR;
+- every section below filled in (comments don't count). Portuguese or English is fine.
+Exceptions: a maintainer may apply the "policy-override" label; justify it under "Impacto / Impact".
 
-Note: Cal.diy is a community-maintained open-source project. Contributions here do NOT flow to Cal.com's production service. -->
+With Claude Code, the pr-generator skill fills this template and pr-evidence generates the evidence.
 
-- Fixes #XXXX (GitHub issue number)
+Note: Cal.diy is a community-maintained open-source project. Contributions here do NOT flow to Cal.com's production service.
+-->
 
-## Visual Demo (For contributors especially)
+## O que foi feito / What was done
 
-A visual demonstration is strongly recommended, for both the original and new change **(video / image - any one)**.
+<!-- O que mudou, de forma objetiva. / What changed, objectively. Fixes #XXXX -->
 
-#### Video Demo (if applicable):
+## Por quê / Why
 
-- Show screen recordings of the issue or feature.
-- Demonstrate how to reproduce the issue, the behavior before and after the change.
+<!-- Motivo da mudança: bug, feature, débito técnico... / Reason: bug, feature, tech debt... -->
 
-#### Image Demo (if applicable):
+## Evidências / Evidence
 
-- Add side-by-side screenshots of the original and updated change.
-- Highlight any significant change(s).
+<!--
+Obrigatório / Required: saída de lint, type-check e testes em bloco de código /
+lint, type-check and test output in a code block;
+screenshots/GIF (antes/depois · before/after) quando houver UI / when UI changes.
+-->
 
-## Mandatory Tasks (DO NOT REMOVE)
+## Como testar / How to test
 
-- [ ] I have self-reviewed the code (A decent size PR without self-review might be rejected).
-- [ ] I have updated the developer docs if this PR makes changes that would require a documentation change. If N/A, write N/A here and check the checkbox.
-- [ ] I confirm automated tests are in place that prove my fix is effective or that my feature works.
+<!-- Passos reproduzíveis, variáveis de ambiente, dados mínimos, saída esperada. /
+Reproducible steps, env vars, minimal data, expected output. -->
 
-## How should this be tested?
+## Impacto / Impact
 
-<!-- Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration. Write details that help to start the tests -->
-
-- Are there environment variables that should be set?
-- What are the minimal test data to have?
-- What is expected (happy path) to have (input and output)?
-- Any other important info that could help to test that PR
+<!-- Áreas afetadas, riscos, o que observar após o merge. / Affected areas, risks, what to watch after merge. -->
 
 ## Checklist
 
-<!-- Remove bullet points below that don't apply to you -->
-
-- I haven't read the [contributing guide](https://github.com/calcom/cal.diy/blob/main/CONTRIBUTING.md)
-- My code doesn't follow the style guidelines of this project
-- I haven't commented my code, particularly in hard-to-understand areas
-- I haven't checked if my changes generate no new warnings
-- My PR is too large (>500 lines or >10 files) and should be split into smaller PRs
+- [ ] Fiz self-review do código. / I have self-reviewed the code.
+- [ ] Atualizei a documentação quando necessário (ou N/A). / I updated the docs where needed (or N/A).
+- [ ] Há testes automatizados provando a mudança. / Automated tests prove the change.
